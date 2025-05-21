@@ -5,7 +5,6 @@ $errores = [];
 $campos = ['nombre', 'apellido', 'email', 'telefono', 'fecha', 'hora', 'medico', 'motivo'];
 $datos = array_fill_keys($campos, '');
 
-// Verificar si se envió el formulario
 $formulario_enviado = ($_SERVER['REQUEST_METHOD'] === 'POST');
 
 if ($formulario_enviado) {
@@ -39,7 +38,7 @@ if ($formulario_enviado) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title><?= $mostrar_confirmacion ?? false ? 'Confirmación de Cita' : 'Solicitud de Cita Médica' ?></title>
+    <title>Cita Médica</title>
     <style>
         body {
             font-family: Arial, sans-serif;

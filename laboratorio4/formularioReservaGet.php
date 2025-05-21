@@ -7,6 +7,7 @@ $datos = array_fill_keys($campos, '');
 $mostrar_confirmacion = false;
 
 if (!empty($_GET)) {
+     // Validación de datos
     foreach ($campos as $campo) {
         $datos[$campo] = trim($_GET[$campo] ?? '');
         if ($campo !== 'huespedes' && empty($datos[$campo])) {
@@ -34,7 +35,7 @@ if (!empty($_GET)) {
         $mostrar_confirmacion = true;
     } else {
         $mensaje = 'Por favor, corrija los errores en el formulario.';
-        $clase_mensaje = 'error-mensaje';
+        $clase_mensaje = 'err   or-mensaje';
     }
 }
 ?>
@@ -42,7 +43,7 @@ if (!empty($_GET)) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title><?= $mostrar_confirmacion ? 'Confirmación de Reserva' : 'Solicitud de Reserva de Hotel' ?></title>
+    <title>Reserva de Hotel</title>
     <style>
         body {
             font-family: Arial, sans-serif;
