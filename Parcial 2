@@ -1,0 +1,84 @@
+1. formulario.html (Formulario para inscribirse)
+html
+
+Copiar código
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Voluntariado</title>
+</head>
+<body>
+    <h2>Formulario de Inscripción a Voluntariado</h2>
+    <form action="procesar.php" method="post">
+        <label>Nombre: <input type="text" name="nombre" required></label><br><br>
+        <label>Habilidades: <input type="text" name="habilidades" required></label><br><br>
+        <label>Disponibilidad: <input type="text" name="disponibilidad" required></label><br><br>
+        <label>Actividad Preferida:
+            <select name="actividad" required>
+                <option value="">Seleccione</option>
+                <option value="Educación">Educación</option>
+                <option value="Salud">Salud</option>
+                <option value="Ambiente">Ambiente</option>
+            </select>
+        </label><br><br>
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>
+
+
+2. Uso se sesión y cookies
+<?php
+session_start();
+
+try {
+    if (!isset($_POST['nombre'], $_POST['habilidades'], $_POST['disponibilidad'], $_POST['actividad'])) {
+        throw new Exception("Faltan datos en el formulario.");
+    }
+
+    $nombre = trim($_POST['nombre']);
+    $habilidades = trim($_POST['habilidades']);
+    $disponibilidad = trim($_POST['disponibilidad']);
+    $actividad = trim($_POST['actividad']);
+
+    if (empty($nombre) || empty($habilidades) || empty($disponibilidad) || empty($actividad)) {
+        throw new Exception("Todos los campos son obligatorios.");
+    }
+
+    // Guardar en sesión
+    $_SESSION['nombre'] = $nombre;
+    $_SESSION['habilidades'] = $habilidades;
+    $_SESSION['disponibilidad'] = $disponibilidad;
+
+    // Guardar actividad preferida en una cookie (1 hora)
+    setcookie("actividad", $actividad, time() + 3600);
+
+    echo "<h3>Datos guardados correctamente.</h3>";
+    echo "<p>Nombre: $nombre</p>";
+    echo "<p>Habilidades: $habilidades</p>";
+    echo "<p>Disponibilidad: $disponibilidad</p>";
+    echo "<p>Actividad (guardada en cookie): $actividad</p>";
+
+    echo '<br><br><a href="limpiar.php">Cerrar sesión y borrar cookie</a>';
+
+} catch (Exception $e) {
+    echo "<strong>Error:</strong> " . $e->getMessage();
+}
+?>
+
+
+3. Limpiar php
+<?php
+session_start();
+
+// Eliminar variables de sesión
+session_unset();
+session_destroy();
+
+// Borrar cookie
+setcookie("actividad", "", time() - 3600);
+
+echo "<p>Sesión cerrada y cookie eliminada correctamente.</p>";
+echo '<a href="formulario.html">Volver al formulario</a>';
+?>
